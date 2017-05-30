@@ -7,7 +7,9 @@
 #define LED_SILENCIO 2 //pin de LED_SILENCIO
 #define LED_CAPTURADO 3 //pin de LED_CAPTURADO
 #define LED_ENSEÑANDO 4 //pin de LED_ENSEÑANDO
-
+#define BOTON_ENSEÑAR 5 //pin de BOTON_ENSEÑAR
+#define BOTON_OK 6 //pin de BOTON_OK
+#define PIN_SONIDO 7 // Pin de sonido analogico
 
 void setup() {
 
@@ -17,34 +19,66 @@ pinMode(LED_SILENCIO,OUTPUT);    //configura Led SILENCIO
 pinMode(LED_CAPTURADO,OUTPUT);   //Configura Led CAPTURADO
 pinMode(LED_ENSEÑANDO,OUTPUT);   //configura Led ENSEÑANDO
 
-  //Configuracion de los botones de entrada
-    //COnfigurar Boton ENSEÑAR.
-    //Configurar Boton OK.
-    
-  //Configuracion de la frecuencia de muestreo con interrupciones en uno de los timer, Configurar la rutina de interrupcion. 
-  //Configuracion del convertidor analogico a digital.
+ //Configuracion de los botones de entrada
+pinMode(BOTON_ENSEÑAR,INPUT);   //COnfigurar Boton ENSEÑAR.
+pinMode(BOTON_OK,INPUT);     //Configurar Boton OK.
+
+  //Configuracion de la frecuencia de muestreo con interrupciones en uno de los timer, Configurar la rutina de interrupcion.
   //configuracion de la memoria SD.
  }
 
+
 void loop() {
 //Modo de Enseñanza
-    //Conseguir patron. Inicio de ciclo Conseguir patron
-      //Espera que el Usuario pulse el Boton ENSEÑAR. 
-      //Fin de la espera. (1) El boton de ENSEÑAR fue presionado
-      //LEd ENSEÑANDO=ON
-      //Se realiza una grabacion del sonido patron durante NS Segundos.
-      //Se calcula la FFT del sonido patron.
-      //Se espera que se presione el boton OK o el Boton ENSEÑAR. (1) Si se presiona OK el usuario esta deacuerdo con la grabacion.(2) Si se presiona ENSEÑAR el usuario desea volver a grabar el sonido. 
-    //Fin de cliclo Conseguir patron. (1) Se presiono el boton OK. 
-         
-   //Medir nivel de Ruido. Inicio de ciclo medir nivel de ruido.
-     //Espera que el Usuario pulse el Boton ENSEÑAR. 
-          //Fin de la espera. (1) El boton de ENSEÑAR fue presionado
-          //Se realiza una medicion del nivel de ruido durante NS Segundos. Se captura el Maximo valor de ruido.
-          //Se espera que se presione el boton OK o el Boton ENSEÑAR. (1) Si se presiona OK el usuario esta deacuerdo con la grabacion.(2) Si se presiona ENSEÑAR el usuario desea volver a grabar el sonido.
-    //fin de clico medir nivel de ruido. (1) Se presiono el boton OK
-     //LEd ENSEÑANDO=OFF
-//fin de Modo de enseñansa.
+band0=OFF;
+  do{  //Conseguir patron. Inicio de ciclo Conseguir patron
+      //Espera que el Usuario pulse el Boton ENSEÑAR.
+      int band1=ON;
+      while(band1==ON){
+          if (digitalRead(BOTON_ENSEÑAR)==HIGH){
+            band1=OFF;
+          }
+        } //Fin de la espera. (1) El boton de ENSEÑAR fue presionado
+digitalWrite(LED_ENSEÑANDO, HIGH);      //LEd ENSEÑANDO=ON
+GrabaPatron();      //Se realiza una grabacion del sonido patron durante NS Segundos.
+FFT()   ; //Se calcula la FFT del sonido patron.
+band1=ON;    //Se espera que se presione el boton OK o el Boton ENSEÑAR. (1) Si se presiona OK el usuario esta deacuerdo con la grabacion.(2) Si se presiona ENSEÑAR el usuario desea volver a grabar el sonido.
+    while(band1==ON){
+        if (digitalRead(BOTON_ENSEÑAR)==HIGH){
+          band1=OFF;
+          band0=OFF;
+        }
+        if (digitalRead(BOTON_OK)==HIGH){
+          band1=OFF;
+          band0=ON;
+        }
+      }
+   }while(band0==OFF); //Fin de cliclo Conseguir patron. (1) Se presiono el boton OK.
+
+band0=OFF;
+do{//Medir nivel de Ruido. Inicio de ciclo medir nivel de ruido.
+     //Espera que el Usuario pulse el Boton ENSEÑAR.
+     int band1=ON;
+     while(band1==ON){
+         if (digitalRead(BOTON_ENSEÑAR)==HIGH){
+           band1=OFF;
+         }
+       }  //Fin de la espera. (1) El boton de ENSEÑAR fue presionado
+RuidoMax();        //Se realiza una medicion del nivel de ruido maximo durante NS Segundos. Se captura el Maximo valor de ruido.
+        band1=ON;     //Se espera que se presione el boton OK o el Boton ENSEÑAR. (1) Si se presiona OK el usuario esta deacuerdo con la grabacion.(2) Si se presiona ENSEÑAR el usuario desea volver a grabar el sonido.
+
+              while(band1==ON){
+                  if (digitalRead(BOTON_ENSEÑAR)==HIGH){
+                    band1=OFF;
+                    band0=OFF;
+                  }
+                  if (digitalRead(BOTON_OK)==HIGH){
+                    band1=OFF;
+                    band0=ON;
+                  }
+                }
+    }while(band0==OFF);//fin de clico medir nivel de ruido. (1) Se presiono el boton OK
+digitalWrite(LED_ENSEÑANDO, LOW);         //LEd ENSEÑANDO=OFF.Fin de Modo de enseñanza.
 
 //(1)Se espera que el usuario presione el boton OK, para continuar a modo Escuchar. (2) El usuario presiona el boton ENSEÑAR para iniciar nuevamente el modo de Enseñanza.
 //ciclo Escuchar - Recordar patron
@@ -77,7 +111,24 @@ void loop() {
   //Patron reconocido
     //led CAPTURADO=ON.
   //Modo escucha cancelado
-   // Se envia a  Modo Enseñar 
- 
+   // Se envia a  Modo Enseñar
 
+
+}
+
+//define GrabaPatron
+int GrabaPatron (){
+//Realiza la grabacion de la señal patron
+return 1;
+}
+
+// define FFT
+int FFT(){
+// realiza la FFT de un vector de un cierto numero de muestras.
+  return 1;
+}
+// define RuidoMax
+int RuidoMax(){
+//realiza la medicion del valor maximo del ruido del ambiente.
+return 1;
 }
