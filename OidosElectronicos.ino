@@ -7,8 +7,8 @@
 #define LED_SILENCIO 2 //pin de LED_SILENCIO
 #define LED_CAPTURADO 3 //pin de LED_CAPTURADO
 #define LED_ENSEÑANDO 4 //pin de LED_ENSEÑANDO
-#define Boton_Enseña 5  //entrada Boton enseña
-#define Boton_ok 6      //entrada boton ok
+#define BOTON_ENSEÑA 5  //entrada Boton enseña
+#define BOTON_OK 6      //entrada boton ok
 
 
 void setup() {
@@ -19,9 +19,9 @@ pinMode(LED_SILENCIO,OUTPUT);    //configura Led SILENCIO
 pinMode(LED_CAPTURADO,OUTPUT);   //Configura Led CAPTURADO
 pinMode(LED_ENSEÑANDO,OUTPUT);   //configura Led ENSEÑANDO
 
-    //Configuracion de los botones de entrada
-    //COnfigurar Boton ENSEÑAR.
-    //Configurar Boton OK.
+  //Configuracion de los botones de entrada
+pinMode(BOTON_ENSEÑA,OUTPUT);    //COnfigurar Boton ENSEÑAR.
+pinMode(BOTON_OK,OUTPUT);   //Configurar Boton OK.
     
   //Configuracion de la frecuencia de muestreo con interrupciones en uno de los timer, Configurar la rutina de interrupcion. 
   //Configuracion del convertidor analogico a digital.
