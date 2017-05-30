@@ -7,6 +7,8 @@
 #define LED_SILENCIO 2 //pin de LED_SILENCIO
 #define LED_CAPTURADO 3 //pin de LED_CAPTURADO
 #define LED_ENSEÑANDO 4 //pin de LED_ENSEÑANDO
+#define Boton_Enseña 5  //entrada Boton enseña
+#define Boton_ok 6      //entrada boton ok
 
 
 void setup() {
