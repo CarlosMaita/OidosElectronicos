@@ -16,7 +16,7 @@ void setup() {
 pinMode(LED_SILENCIO,OUTPUT);    //configura Led SILENCIO
 pinMode(LED_CAPTURADO,OUTPUT);   //Configura Led CAPTURADO
 pinMode(LED_ENSEÑANDO,OUTPUT);   //configura Led ENSEÑANDO
-    
+
   //Configuracion de los botones de entrada
     //COnfigurar Boton ENSEÑAR.
     //Configurar Boton OK.
